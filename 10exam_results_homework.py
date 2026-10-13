@@ -1,24 +1,29 @@
 import csv
 
-score = []
-
 with open("exam_results_homework.csv", "r") as file:
     reader = csv.DictReader(file)
+    students = list(reader)
 
-    for key in reader:
-        score.append(int(key["score"]))
+if students:
+    scores = [int(student["score"]) for student in students]
 
-    if score:
-        print(f"{key['name']}, {max(score)}")
-        print(f"{key['name']}, {min(score)}")
-        print(f"{key['name']},{ sum(score) / len(score)}")
+    highest = max(students, key=lambda student: int(student["score"]))
+    lowest = min(students, key=lambda student: int(student["score"]))
+    average = sum(scores) / len(scores)
 
-        count = 0
+    print("Eng yuqori ball:")
+    print("name,score")
+    print(highest["name"], highest["score"])
 
-        for score in score:
-            if score >= 70:
-                count += 1
+    print("\nEng past ball:")
+    print("name,score")
+    print(lowest["name"], lowest["score"])
 
-            print(f"{key['name']}, {count}")
-    else:
-        print("Natijalar mavjud emas.")
+    print("\nO'rtacha ball:", average)
+
+    print("\n70 yoki undan yuqori ball olganlar:")
+    print("name,score")
+
+    for student in students:
+        if int(student["score"]) >= 70:
+            print(student["name"], student["score"])
